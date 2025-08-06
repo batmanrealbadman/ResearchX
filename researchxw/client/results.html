@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nigeria Exam Results Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: block;
+            width: 200px;
+            padding: 12px;
+            margin: 15px auto;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .neco {
+            background-color: #3498db;
+        }
+        .waec {
+            background-color: #2ecc71;
+        }
+        .nabteb {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nigeria Exam Results Checker</h1>
+        <button class="btn neco" onclick="window.open('https://results.neco.gov.ng', '_blank')">1. NECO Results</button>
+        <button class="btn waec" onclick="window.open('https://www.waecdirect.org', '_blank')">2. WAEC Results</button>
+        <button class="btn nabteb" onclick="window.open('https://eworld.nabteb.gov.ng', '_blank')">3. NABTEB Results</button>
+    </div>
+</body>
+</html>

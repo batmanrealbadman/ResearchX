@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResearchX - Nigerian Higher Institutions Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f9ff;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .intro-text {
+            max-width: 800px;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+
+        .feature-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .feature-card:hover {
+            transform: scale(1.03);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: #0066cc;
+            margin-bottom: 15px;
+        }
+
+        .selection-container {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .select-group {
+            width: 300px;
+            text-align: left;
+        }
+
+        .select-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .select-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #003366;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to ResearchX</h1>
+    <p>Discover Every Institution. Explore Every Course.</p>
+</header>
+
+<div class="main-content">
+    <div class="intro-text">
+        <p><strong>ResearchX</strong> is your comprehensive guide to higher education in Nigeria. Whether you're looking to enroll in a university, polytechnic, or college of education, we've got you covered. From detailed lists of institutions to in-depth course offerings, we make it easy for you to find the perfect academic path.</p>
+        <ul style="text-align: left; max-width: 700px; margin: 20px auto; line-height: 1.6;">
+            <li>🔍 Browse by <strong>Education Level</strong> (OND, Undergraduate, Masters, PhD, etc.)</li>
+            <li>🏛️ Explore by <strong>Institution Type</strong> (University, Polytechnic, College)</li>
+            <li>📚 Dive into <strong>Courses</strong> offered in every discipline</li>
+            <li>🌍 Discover institutions across <strong>all Nigerian states</strong></li>
+        </ul>
+    </div>
+
+    <a class="feature-card" href="#">
+        <div class="feature-icon"><i class="fas fa-download"></i></div>
+        <h3>Download Projects</h3>
+        <p>Access and download academic projects for all levels.</p>
+    </a>
+
+    <div class="selection-container">
+        <div class="select-group">
+            <label for="education-level">Education Level:</label>
+            <select id="education-level">
+                <option>OND</option>
+                <option>Undergraduate</option>
+                <option>Masters</option>
+                <option>Doctor of Philosophy</option>
+                <option>Reader</option>
+                <option>Associate Professor</option>
+                <option>Professor</option>
+            </select>
+        </div>
+
+        <div class="select-group">
+            <label for="discipline">Discipline:</label>
+            <select id="discipline">
+                <option>Engineering</option>
+                <option>Computer Science</option>
+                <option>Business Administration</option>
+                <option>Medical Sciences</option>
+                <option>Education</option>
+                <option>Law</option>
+                <option>Social Sciences</option>
+                <option>Agricultural Science</option>
+                <option>Arts and Humanities</option>
+                <option>Environmental Science</option>
+                <option>Others</option>
+            </select>
+        </div>
+
+        <div class="select-group">
+            <label for="payment">Payment:</label>
+            <select id="payment">
+                <option>6000 naira</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2025 ResearchX. All rights reserved.
+</footer>
+
+</body>
+</html>
