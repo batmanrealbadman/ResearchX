@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResearchX - Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    :root {
+        --primary: #0d6efd;
+        --secondary: #198754;
+        --accent: #fd7e14;
+        --dark: #212529;
+        --light: #f8f9fa;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f5f7fa;
+        display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        background: var(--dark);
+        color: white;
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .sidebar h2 {
+        text-align: center;
+        padding: 20px;
+        background: var(--primary);
+        margin: 0;
+    }
+
+    /* Profile card */
+    .profile-card {
+        text-align: center;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .profile-card img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 2px solid white;
+        object-fit: cover;
+        background: white;
+    }
+
+    .profile-card h3 {
+        margin: 10px 0 5px;
+        font-size: 1rem;
+    }
+
+    .profile-card p {
+        font-size: 0.85rem;
+        color: #bbb;
+        margin: 0;
+    }
+
+    .profile-card input {
+        display: none;
+    }
+
+    .upload-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .sidebar a {
+        padding: 15px 20px;
+        color: white;
+        text-decoration: none;
+        display: block;
+        transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+        background: var(--primary);
+    }
+
+    /* Main */
+    .main {
+        margin-left: 250px;
+        padding: 20px;
+        flex: 1;
+    }
+
+    .welcome {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .card i {
+        font-size: 2rem;
+        color: var(--primary);
+    }
+
+    .activity {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+    }
+
+    .chart {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        height: 300px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+    }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>ResearchX</h2>
+    <div class="profile-card">
+        <img id="profilePic" src="https://via.placeholder.com/80?text=User" alt="Profile Picture">
+        <h3 id="sidebarUsername">John Doe</h3>
+        <p>Student</p>
+        <input type="file" id="uploadPic" accept="image/*">
+        <button class="upload-btn" onclick="document.getElementById('uploadPic').click()">Change Picture</button>
+    </div>
+    <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+    <a href="projects.html"><i class="fas fa-folder"></i> My Projects</a>
+    <a href="downloads.html"><i class="fas fa-download"></i> Downloads</a>
+    <a href="Easyupload.html"><i class="fas fa-upload"></i> Upload</a>
+    <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+    <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<div class="main">
+    <div class="welcome">Welcome, <span id="username">John Doe</span> 👋</div>
+
+    <div class="stats-grid">
+        <div class="card"><i class="fas fa-upload"></i><div><h3>Total Uploads</h3><p>12</p></div></div>
+        <div class="card"><i class="fas fa-download"></i><div><h3>Total Downloads</h3><p>34</p></div></div>
+        <div class="card"><i class="fas fa-wallet"></i><div><h3>Total Earnings</h3><p>₦15,000</p></div></div>
+    </div>
+
+    <div class="activity">
+        <h2>Recent Activity</h2>
+        <div class="activity-item"><span>Uploaded "AI in Nigerian Education"</span><span>2 days ago</span></div>
+        <div class="activity-item"><span>Downloaded "Blockchain for Beginners"</span><span>3 days ago</span></div>
+        <div class="activity-item"><span>Earned ₦2,500 from downloads</span><span>1 week ago</span></div>
+    </div>
+
+    <div class="chart"><p>[Chart displaying uploads & downloads over time]</p></div>
+</div>
+
+<script>
+    // Example username (replace with Supabase data)
+    const username = "Jane Smith";
+    document.getElementById("username").textContent = username;
+    document.getElementById("sidebarUsername").textContent = username;
+
+    // Profile picture upload preview
+    document.getElementById("uploadPic").addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById("profilePic").src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+</body>
+</html>
