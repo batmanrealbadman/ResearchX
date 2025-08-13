@@ -1,0 +1,1271 @@
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Superbase SDKs -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResearchX - Nigerian Higher Institutions Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0d6efd;
+            --secondary: #198754;
+            --accent: #fd7e14;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #0b5ed7);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close-btn:hover {
+            color: var(--dark);
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+        }
+
+        .form-footer {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .form-footer p {
+            margin-top: 15px;
+            color: #666;
+        }
+
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(13, 110, 253, 0.8), rgba(13, 110, 253, 0.9)), url('https://placehold.co/1200x600/0d6efd/white?text=Nigerian+Higher+Education') no-repeat center center/cover;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            color: var(--accent);
+        }
+
+        /* Features Section */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: linear-gradient(to right, #e7f4ff, #fff);
+        }
+
+        .upload-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .upload-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-header h2 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .upload-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .price-input {
+            position: relative;
+        }
+
+        .price-input::before {
+            content: "₦";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+        }
+
+        .price-input input {
+            padding-left: 30px;
+        }
+
+        .upload-btn {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-img {
+            height: 180px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .project-desc {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .download-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #0b5ed7;
+        }
+
+        /* Pricing Section */
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--accent);
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-header {
+            margin-bottom: 30px;
+        }
+
+        .pricing-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li i {
+            color: var(--success);
+            margin-right: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .section {
+                padding: 50px 0;
+            }
+
+            .upload-container {
+                padding: 25px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>ResearchX</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="Easyupload.html">Upload</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                         <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="loginBtn">Login</button>
+                <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeLogin">&times;</span>
+            <h2 class="modal-title">Login to Your Account</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email or Phone Number</label>
+                    <input type="text" id="loginEmail" class="form-control" placeholder="Enter your email or phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group" style="text-align: right;">
+                    <a href="#" id="forgotPassword" style="font-size: 0.9rem;">Forgot Password?</a>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+                    <p>Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeSignup">&times;</span>
+            <h2 class="modal-title">Create Your Account</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" class="form-control" placeholder="Enter your first name" required>
+                </div>
+                <div class="form-group">
+                    <label for="middleName">Middle Name</label>
+                    <input type="text" id="middleName" class="form-control" placeholder="Enter your middle name">
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" class="form-control" placeholder="Enter your surname" required>
+                </div>
+                <div class="form-group">
+                    <label for="localGovt">Local Government</label>
+                    <input type="text" id="localGovt" class="form-control" placeholder="Enter your local government" required>
+                </div>
+                <div class="form-group">
+                    <label for="institution">Institution</label>
+                    <select id="institution" class="form-control" required>
+                        <option value="">Select your institution</option>
+                        <optgroup label="Federal Universities">
+                            <option>University of Lagos (UNILAG)</option>
+                            <option>University of Ibadan (UI)</option>
+                            <option>Ahmadu Bello University (ABU)</option>
+                            <option>University of Nigeria (UNN)</option>
+                            <option>Obafemi Awolowo University (OAU)</option>
+                            <option>University of Benin (UNIBEN)</option>
+                            <option>University of Calabar (UNICAL)</option>
+                            <option>University of Ilorin (UNILORIN)</option>
+                            <option>University of Jos (UNIJOS)</option>
+                            <option>University of Maiduguri (UNIMAID)</option>
+                            <option>University of Port Harcourt (UNIPORT)</option>
+                            <option>University of Uyo (UNIUYO)</option>
+                            <option>Federal University of Technology, Akure (FUTA)</option>
+                            <option>Federal University of Technology, Minna (FUTMINNA)</option>
+                            <option>Federal University of Technology, Owerri (FUTO)</option>
+                            <option>Nnamdi Azikiwe University (UNIZIK)</option>
+                            <option>University of Abuja (UNIABUJA)</option>
+                        </optgroup>
+                        <optgroup label="State Universities">
+                            <option>Rivers State University</option>
+                            <option>Ambrose Alli University, Ekpoma</option>
+                            <option>Abia State University, Uturu</option>
+                            <option>Ekiti State University</option>
+                            <option>Enugu State University of Science and Technology, Enugu</option>
+                            <option>Olabisi Onabanjo University, Ago Iwoye</option>
+                            <option>Lagos State University, Ojo</option>
+                            <option>Ladoke Akintola University of Technology, Ogbomoso</option>
+                            <option>Benue State University, Makurdi</option>
+                            <option>Delta State University Abraka</option>
+                            <option>Imo State University, Owerri</option>
+                            <option>Adekunle Ajasin University, Akungba</option>
+                            <option>Prince Abubakar Audu University Anyigba</option>
+                            <option>Chukwuemeka Odumegwu Ojukwu University, Uli</option>
+                            <option>Ebonyi State University, Abakaliki</option>
+                            <option>Aliko Dangote university of Science & Technology, Wudil</option>
+                            <option>Niger Delta University Yenagoa</option>
+                            <option>Adamawa State University Mubi</option>
+                            <option>Nasarawa State University Keffi</option>
+                            <option>University of Cross River State, Calabar</option>
+                            <option>Gombe State Univeristy, Gombe</option>
+                            <option>Kaduna State University, Kaduna</option>
+                            <option>Ibrahim Badamasi Babangida University, Lapai</option>
+                            <option>Plateau State University Bokkos</option>
+                            <option>Yobe State University, Damaturu</option>
+                            <option>Kebbi State University of Science and Technology, Aliero</option>
+                            <option>Umar Musa Yar' Adua University Katsina</option>
+                            <option>Osun State University Osogbo</option>
+                            <option>Olusegun Agagu University of Sc. & Tech., Okitipupa, Ondo</option>
+                            <option>Taraba State University, Jalingo</option>
+                            <option>Kwara State University, Ilorin</option>
+                            <option>Sokoto State University</option>
+                            <option>Akwa Ibom State University, Ikot Akpaden</option>
+                            <option>Ignatius Ajuru University of Education,Rumuolumeni</option>
+                            <option>Bauchi State University, Gadau</option>
+                            <option>Yusuf Maitama Sule University Kano</option>
+                            <option>First Technical University Ibadan</option>
+                            <option>Sule Lamido University, Kafin Hausa, Jigawa</option>
+                            <option>University of Medical Sciences, Ondo City, Ondo State</option>
+                            <option>Edo State University Uzairue</option>
+                            <option>Kingsley Ozumba Mbadiwe University Ogboko, Imo State</option>
+                            <option>University of Africa Toru Orua, Bayelsa State</option>
+                            <option>Bornu State University, Maiduguri</option>
+                            <option>Moshood Abiola University of Science and Technology Abeokuta</option>
+                            <option>Gombe State University of Science and Technology</option>
+                            <option>Zamfara State University</option>
+                            <option>Bayelsa Medical University</option>
+                            <option>University of Agriculture and Environmental Sciences Umuagwo, Imo State</option>
+                            <option>Confluence University of Science and Technology Osara, Kogi</option>
+                            <option>Bamidele Olumilua University of Science and Technology Ikere, Ekiti State</option>
+                            <option>University of Delta, Agbor</option>
+                            <option>Delta University of Science and Technology, Ozoro</option>
+                            <option>Dennis Osadebe University, Asaba</option>
+                            <option>Lagos State University of Education, Ijanikin</option>
+                            <option>Shehu Shagari University of Education, Sokoto</option>
+                            <option>State University of Medical and Applied Sciences, Igbo-Eno, Enugu</option>
+                            <option>University of Ilesa, Osun State</option>
+                            <option>Emanuel Alayande University of Education Oyo</option>
+                            <option>Kogi State University, Kabba</option>
+                            <option>AbdulKadir Kure University, Minna Niger State</option>
+                            <option>Kwara State University of Education, Ilorin, Kwara State</option>
+                            <option>Abdulsalam Abubakar University of Agriculture and Climate Action, Mokwa, Niger State</option>
+                            <option>Ebonyi State University of ICT, Science and Technology, Oferekpe, Ebonyi State</option>
+                            <option>Cross River University of Education and Entrepeneurship, Akampa, Cross River State</option>
+                            <option>Benue State University of Agriculture Science and Technology, Ihugh.</option>
+                            <option>University of Aeronautics and Aerospace Engineering Ezza, Ebonyi State</option>
+                        </optgroup>
+                        <optgroup label="Polytechnics">
+                            <option>Yaba College of Technology</option>
+                            <option>Kwara State Polytechnic</option>
+                            <option>Lagos State Polytechnic</option>
+                            <option>Federal Polytechnic, Nekede</option>
+                            <option>Auchi Polytechnic</option>
+                            <option>Kaduna Polytechnic</option>
+                        </optgroup>
+                        <optgroup label="Colleges of Education">
+                            <option>Federal College of Education (Technical), Akoka</option>
+                            <option>Alvan Ikoku Federal College of Education</option>
+                            <option>Federal College of Education, Zaria</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="institutionCategory">Institution Category</label>
+                    <select id="institutionCategory" class="form-control" required>
+                        <option value="">Select category</option>
+                        <option>University</option>
+                        <option>Polytechnic</option>
+                        <option>College of Education</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select id="department" class="form-control" required>
+                        <option value="">Select your department</option>
+                        <optgroup label="Science">
+                            <option>Computer Science</option>
+                            <option>Mathematics</option>
+                            <option>Physics</option>
+                            <option>Chemistry</option>
+                            <option>Biochemistry</option>
+                            <option>Microbiology</option>
+                            <option>Geology</option>
+                        </optgroup>
+                        <optgroup label="Engineering">
+                            <option>Electrical Engineering</option>
+                            <option>Mechanical Engineering</option>
+                            <option>Civil Engineering</option>
+                            <option>Chemical Engineering</option>
+                            <option>Computer Engineering</option>
+                        </optgroup>
+                        <optgroup label="Arts & Humanities">
+                            <option>English Language</option>
+                            <option>History</option>
+                            <option>Philosophy</option>
+                            <option>Religious Studies</option>
+                        </optgroup>
+                        <optgroup label="Social Sciences">
+                            <option>Economics</option>
+                            <option>Political Science</option>
+                            <option>Sociology</option>
+                            <option>Psychology</option>
+                        </optgroup>
+                        <optgroup label="Management Sciences">
+                            <option>Business Administration</option>
+                            <option>Accounting</option>
+                            <option>Banking & Finance</option>
+                            <option>Marketing</option>
+                        </optgroup>
+                        <optgroup label="Education">
+                            <option>Education & Biology</option>
+                            <option>Education & Chemistry</option>
+                            <option>Education & Mathematics</option>
+                            <option>Education & Physics</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="supervisor">Supervisor Name</label>
+                    <input type="text" id="supervisor" class="form-control" placeholder="Enter your supervisor's name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+                    <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeForgot">&times;</span>
+            <h2 class="modal-title">Reset Your Password</h2>
+            <form id="forgotForm">
+                <div class="form-group">
+                    <label for="forgotEmail">Email Address</label>
+                    <input type="email" id="forgotEmail" class="form-control" placeholder="Enter your email" required>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Reset Password</button>
+                    <p>Remember your password? <a href="#" id="showLoginFromForgot">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1>Share & Monetize Academic Projects</h1>
+            <p>Nigeria's premier platform for uploading, downloading, and earning from higher institution projects. Connect with students across all Nigerian universities.</p>
+            <div class="auth-buttons">
+                <button class="btn btn-primary" id="heroSignup">Get Started</button>
+                   <button class="btn btn-primary href="projects.html">Browse Projects</button>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>15,000+</h3>
+                    <p>Projects Uploaded</p>
+                </div>
+                <div class="stat-item">
+                    <h3>50+</h3>
+                    <p>Nigerian Institutions</p>
+                </div>
+                <div class="stat-item">
+                    <h3>₦2.5M</h3>
+                    <p>Earned by Students</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <!-- FontAwesome CDN (Make sure it's in your <head>) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    .features-container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        min-width: 200px;
+        flex: 0 0 auto;
+        text-align: center;
+        padding: 15px;
+        transition: transform 0.2s ease;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-icon {
+        font-size: 28px;
+        color: #0056b3;
+        margin-bottom: 10px;
+    }
+
+    .feature-card h3 {
+        margin: 10px 0 5px;
+        font-size: 18px;
+    }
+
+    .feature-card p {
+        font-size: 14px;
+        color: #555;
+    }
+</style>
+
+<div class="features-container">
+
+   <a class="feature-card" href="EasyUpload.html">
+        <div class="feature-icon"><i class="fas fa-upload"></i></div>
+        <h3>Easy upload</h3>
+        <p>Upload your project with students around nigeria</p>
+    </a>
+ <a class="feature-card" href="Institutions.html">
+        <div class="feature-icon"><i class="fas fa-university"></i></div>
+        <h3>All Institutions</h3>
+        <p>connect with all nigerian institutions.</p>
+    </a>
+    <a class="feature-card" href="https://www.chevening.org">
+        <div class="feature-icon"><i class="fas fa-school"></i></div>
+        <h3>Scholarship</h3>
+        <p>find scholarship opportunity from all around the world</p>
+    </a>
+
+    <a class="feature-card" href="pricing.html">
+    <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-money-bill-wave"></i></div>
+        <h3>Monetize</h3>
+        <p>Set prices and earn Naira from downloads. Keep 75% of sales.</p>
+    </div>
+
+    <a class="feature-card" href="https://en.wikipedia.org" target="_blank">
+        <div class="feature-icon"><i class="fas fa-book"></i></div>
+        <h3>Wikipedia</h3>
+        <p>Access the free online encyclopedia.</p>
+    </a>
+
+    <a class="feature-card" href="elibrary.html">
+        <div class="feature-icon"><i class="fas fa-book-reader"></i></div>
+        <h3>E-Library</h3>
+        <p>Digital library with books, journals, and research papers.</p>
+    </a>
+
+    <a class="feature-card" href="https://www.worldometers.info">
+        <div class="feature-icon"><i class="fas fa-map-marked-alt"></i></div>
+        <h3>Map</h3>
+        <p>Find schools across all Nigerian states.</p>
+    </a>
+
+    <a class="feature-card" href="https://www.nysc.gov.ng">
+        <div class="feature-icon"><i class="fas fa-newspaper"></i></div>
+        <h3>Camp News</h3>
+        <p>NYSC updates, strikes, admissions and more.</p>
+    </a>
+
+  <a class="feature-card" href="results.html">
+        <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
+        <h3>Check results</h3>
+        <p>Check your result here. Neco Waec e.t.c</p>
+    </a>
+
+    <a class="feature-card" href="https://www.currentaffairs.ng">
+        <div class="feature-icon"><i class="fas fa-globe-africa"></i></div>
+        <h3>Current Affairs</h3>
+        <p>Stay updated with Nigerian and global headlines.</p>
+    </a>
+
+    <a class="feature-card" href="https://www.portal.nysc.org.ng">
+        <div class="feature-icon"><i class="fas fa-user-graduate"></i></div>
+        <h3>NYSC</h3>
+        <p>Orientation, deployment, and clearance updates.</p>
+    </a>
+
+</div>
+
+
+
+    <!-- Upload Section -->
+    <section class="section upload-section" id="upload">
+        <div class="container">
+            <div class="section-title">
+                
+  <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ResearchX</h3>
+                    <p>Nigeria's premier platform for academic research sharing and collaboration across higher institutions.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="all-institutions.html">Institutions</a></li>
+                        <li><a href="Easyupload.html">Upload Research</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:researchxw@gmail">info@researchxw@gmail.com</a></li>
+                        <li><a href="tel:+234 9018913172">+234 7083046066</a></li>
+                        <li><a href="facebook:researchx">facebook:researchx</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ResearchX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+                
+<div style="background:#f3f3f3; padding:20px; text-align:center; margin-top:50px;">
+  <h3>Subscribe to Newsletter</h3>
+  <form id="newsletterForm">
+    <input type="text" id="newsletterName" placeholder="Your Name" required style="padding:8px; width:200px; max-width:100%;"><br>
+    <input type="email" id="newsletterEmail" placeholder="Your Email" required style="padding:8px; width:200px; max-width:100%; margin:10px 0;"><br>
+    <button type="submit" style="padding:8px 20px; background:blue; color:white; border:none;">
+      Subscribe
+    </button>
+  </form>
+</div>
+     
+
+
+
+
+<script>
+    // Modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get modal elements
+        const loginModal = document.getElementById('loginModal');
+        const signupModal = document.getElementById('signupModal');
+        const forgotModal = document.getElementById('forgotModal');
+
+        // Get button elements
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const heroSignup = document.getElementById('heroSignup');
+        const forgotPassword = document.getElementById('forgotPassword');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const showLoginFromForgot = document.getElementById('showLoginFromForgot');
+
+        // Get close button elements
+        const closeLogin = document.getElementById('closeLogin');
+        const closeSignup = document.getElementById('closeSignup');
+        const closeForgot = document.getElementById('closeForgot');
+
+        // Function to open modal
+        function openModal(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Function to close modal
+        function closeModal(modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners for opening modals
+        if (loginBtn) loginBtn.addEventListener('click', () => openModal(loginModal));
+        if (signupBtn) signupBtn.addEventListener('click', () => openModal(signupModal));
+        if (heroSignup) heroSignup.addEventListener('click', () => openModal(signupModal));
+
+        // Event listeners for closing modals
+        if (closeLogin) closeLogin.addEventListener('click', () => closeModal(loginModal));
+        if (closeSignup) closeSignup.addEventListener('click', () => closeModal(signupModal));
+        if (closeForgot) closeForgot.addEventListener('click', () => closeModal(forgotModal));
+
+        // Event listeners for switching between modals
+        if (showSignup) showSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(loginModal);
+            openModal(signupModal);
+        });
+
+        if (showLogin) showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(signupModal);
+            openModal(loginModal);
+        });
+
+        if (forgotPassword) forgotPassword.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(loginModal);
+            openModal(forgotModal);
+        });
+
+        if (showLoginFromForgot) showLoginFromForgot.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal(forgotModal);
+            openModal(loginModal);
+        });
+
+        // Close modal when clicking outside of it
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) closeModal(loginModal);
+            if (e.target === signupModal) closeModal(signupModal);
+            if (e.target === forgotModal) closeModal(forgotModal);
+        });
+
+        // Form submission handlers
+        if (document.getElementById('loginForm')) {
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Login functionality will be implemented here');
+                closeModal(loginModal);
+            });
+        }
+
+        if (document.getElementById('signupForm')) {
+            document.getElementById('signupForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Signup functionality will be implemented here');
+                closeModal(signupModal);
+            });
+        }
+
+        if (document.getElementById('forgotForm')) {
+            document.getElementById('forgotForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Password reset functionality will be implemented here');
+                closeModal(forgotModal);
+            });
+        }
+
+        });
+
+<!-- Superbase SDKs -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Initialize Supabase client
+  const supabaseUrl = 'https://wrmzehgbqjpiiaazmmgh.supabase.co'; // Replace with your actual URL
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndybXplaGdicWpwaWlhYXptbWdoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4Mjg4MjEsImV4cCI6MjA3MDQwNDgyMX0.9p5NdmJoUvRjPmApqZo1C7QZdfO1X9QCD72gD6fpr98'; // Replace with your actual anon key
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+</script>
+<!-- Auth Script (keep this as is) -->
+<script src="js/auth.js"></script>
