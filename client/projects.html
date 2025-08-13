@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ResearchX Projects</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #0d6efd;
+      --light: #f5f9ff;
+      --dark: #1a1a1a;
+      --card-bg: #ffffff;
+      --border-radius: 8px;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--light);
+      margin: 0;
+      padding: 0;
+      color: var(--dark);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .search-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      display: flex;
+      border: 2px solid var(--primary);
+      border-radius: 50px;
+      overflow: hidden;
+      background: white;
+    }
+
+    .search-container input {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .search-container button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    section {
+      padding: 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary);
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 0.5rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .project-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      color: #444;
+    }
+
+    .project-meta {
+      font-size: 0.85rem;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 600px) {
+      .search-container {
+        flex-direction: column;
+        border-radius: 10px;
+      }
+
+      .search-container input,
+      .search-container button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1><i class="fas fa-project"></i> All Research Projects</h1>
+  </header>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search projects by title, keywords, or category..." />
+    <button onclick="filterProjects()"><i class="fas fa-search"></i></button>
+  </div>
+
+  <section id="students-section">
+    <div class="section-header"><i class="fas fa-user-graduate"></i> Student Projects</div>
+    <div class="projects-grid" id="students-projects"></div>
+  </section>
+
+  <section id="lecturers-section">
+    <div class="section-header"><i class="fas fa-chalkboard-teacher"></i> Lecturer Projects</div>
+    <div class="projects-grid" id="lecturers-projects"></div>
+  </section>
+
+  <section id="independents-section">
+    <div class="section-header"><i class="fas fa-user-tie"></i> Independent Researchers</div>
+    <div class="projects-grid" id="independent-projects"></div>
+  </section>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // ✅ Firebase Config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const searchInput = document.getElementById('searchInput');
+    let allProjects = [];
+
+    // ✅ Load Projects
+    db.collection("projects").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+      allProjects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      displayProjects(allProjects);
+    });
+
+    function displayProjects(projects) {
+      const studentContainer = document.getElementById("students-projects");
+      const lecturerContainer = document.getElementById("lecturers-projects");
+      const independentContainer = document.getElementById("independent-projects");
+
+      studentContainer.innerHTML = '';
+      lecturerContainer.innerHTML = '';
+      independentContainer.innerHTML = '';
+
+      projects.forEach(project => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+          <div class="project-title">${project.title}</div>
+          <div class="project-desc">${project.description.slice(0, 120)}...</div>
+          <div class="project-meta">
+            <span>₦${project.price}</span>
+            <span>${project.role}</span>
+          </div>
+        `;
+
+        if (project.role === "student") {
+          studentContainer.appendChild(card);
+        } else if (project.role === "lecturer") {
+          lecturerContainer.appendChild(card);
+        } else {
+          independentContainer.appendChild(card);
+        }
+      });
+    }
+
+    function filterProjects() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = allProjects.filter(p =>
+        p.title.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query) ||
+        p.keywords?.toLowerCase().includes(query) ||
+        p.role.toLowerCase().includes(query)
+      );
+      displayProjects(filtered);
+    }
+  </script>
+</body>
+</html>

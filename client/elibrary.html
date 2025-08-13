@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>E-Library Landing Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #f0f2f5, #e6ecf0);
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(to right, #4b6cb7, #182848);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+      background-image: url('https://images.unsplash.com/photo-1532012197267-da84d127e765');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(24, 40, 72, 0.7);
+    }
+
+    header h1 {
+      font-size: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      padding: 3rem 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+
+    .book-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .book-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .book-cover {
+      height: 320px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .book-info {
+      padding: 1.2rem;
+    }
+
+    .book-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #2c3e50;
+    }
+
+    .book-info p {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    footer {
+      background: #182848;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Welcome to E-Library</h1>
+    <p>Your gateway to timeless educational knowledge</p>
+  </header>
+
+  <div class="container">
+    <div class="books-grid">
+
+      <!-- Book 1 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/71o35nTQf4L._AC_UF1000,1000_QL80_.jpg');"></div>
+        <div class="book-info">
+          <h3>Gray's Anatomy</h3>
+          <p>A classic reference in human anatomy used by medical professionals globally.</p>
+        </div>
+      </div>
+
+      <!-- Book 2 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/71HJ8NQFtQL.jpg');"></div>
+        <div class="book-info">
+          <h3>The Origin of Species</h3>
+          <p>Charles Darwin's revolutionary theory of evolution and natural selection.</p>
+        </div>
+      </div>
+
+      <!-- Book 3 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/71Hw7nNfbHL._AC_UF1000,1000_QL80_.jpg');"></div>
+        <div class="book-info">
+          <h3>Principles of Economics</h3>
+          <p>Essential concepts that shape economic decisions and global policies.</p>
+        </div>
+      </div>
+
+      <!-- Book 4 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/71HMyqG6MRL.jpg');"></div>
+        <div class="book-info">
+          <h3>A Brief History of Time</h3>
+          <p>Stephen Hawking explores the nature of time and the universe in layman's terms.</p>
+        </div>
+      </div>
+
+      <!-- Book 5 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/91zHlfZ0h6L.jpg');"></div>
+        <div class="book-info">
+          <h3>The Art of War</h3>
+          <p>Sun Tzu’s ancient military treatise used in leadership and strategy worldwide.</p>
+        </div>
+      </div>
+
+      <!-- Book 6 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/81oFwZpPZXL.jpg');"></div>
+        <div class="book-info">
+          <h3>Thinking, Fast and Slow</h3>
+          <p>A deep dive into human decision-making and cognitive biases by Daniel Kahneman.</p>
+        </div>
+      </div>
+
+      <!-- Book 7 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/81bGkrsLdaL.jpg');"></div>
+        <div class="book-info">
+          <h3>Introduction to Algorithms</h3>
+          <p>The standard textbook for algorithmic theory and computer science education.</p>
+        </div>
+      </div>
+
+      <!-- Book 8 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/81Qy7pZojNL.jpg');"></div>
+        <div class="book-info">
+          <h3>Advanced Engineering Mathematics</h3>
+          <p>A staple for engineering students with broad applications in real-world problems.</p>
+        </div>
+      </div>
+
+      <!-- Book 9 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/710Wz0YNTmL.jpg');"></div>
+        <div class="book-info">
+          <h3>The Elements of Style</h3>
+          <p>Guide to grammar, writing, and composition for students and professionals.</p>
+        </div>
+      </div>
+
+      <!-- Book 10 -->
+      <div class="book-card">
+        <div class="book-cover" style="background-image: url('https://m.media-amazon.com/images/I/71FbRL1KQ7L.jpg');"></div>
+        <div class="book-info">
+          <h3>The Feynman Lectures on Physics</h3>
+          <p>Physics made beautifully simple by Nobel Laureate Richard Feynman.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 E-Library. All rights reserved. Designed for education and exploration.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Project - ResearchX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0d6efd;
+            --secondary: #198754;
+            --accent: #fd7e14;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #0b5ed7);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: linear-gradient(to right, #e7f4ff, #fff);
+            padding: 80px 0;
+        }
+
+        .upload-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .upload-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-header h2 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .upload-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 1em;
+            padding-right: 40px;
+        }
+
+        select:required:invalid {
+            color: #6c757d;
+        }
+        
+        option[value=""][disabled] {
+            display: none;
+        }
+        
+        option {
+            color: #212529;
+        }
+
+        .price-input {
+            position: relative;
+        }
+
+        .price-input::before {
+            content: "₦";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+        }
+
+        .price-input input {
+            padding-left: 30px;
+        }
+
+        .upload-btn {
+            background: var(--secondary);
+            color: white;
+            padding: 15px;
+            font-size: 1.1rem;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .originality-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        .originality-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+
+        .checkbox-group small {
+            color: #666;
+            display: block;
+            margin-top: 5px;
+        }
+
+        #plagiarismResult {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        #uploadStatus {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: var(--primary);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s ease;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            line-height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>ResearchX</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="Easyupload.html">Upload</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="loginBtn">Login</button>
+                <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Upload Section -->
+    <section class="section upload-section" id="upload">
+        <div class="container">
+            <div class="upload-container">
+                <div class="upload-header">
+                    <h2>Upload Your Research</h2>
+                    <p>Share your academic work with students across Nigeria</p>
+                </div>
+                <form id="uploadForm" class="upload-form">
+                    <div class="form-group">
+                        <label for="projectTitle">Project Title</label>
+                        <input type="text" id="projectTitle" class="form-control" placeholder="Enter project title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userCategory">User Category</label>
+                        <select id="userCategory" class="form-control" required>
+                            <option value="" disabled selected>Select your category</option>
+                            <option value="student">Student</option>
+                            <option value="lecturer">Lecturer</option>
+                            <option value="researcher">Individual Researcher</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="projectTypeContainer" style="display: none;">
+                        <label for="projectType">Project Type</label>
+                        <select id="projectType" class="form-control" required>
+                            <option value="" disabled selected>Select project type</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectDescription">Description</label>
+                        <textarea id="projectDescription" class="form-control" placeholder="Describe your project (minimum 100 words)" required minlength="100"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectKeywords">Keywords (comma separated)</label>
+                        <input type="text" id="projectKeywords" class="form-control" placeholder="e.g. computer science, AI, Nigeria" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectFile">Project File (PDF/DOCX)</label>
+                        <input type="file" id="projectFile" class="form-control" accept=".pdf,.doc,.docx" required>
+                    </div>
+                    
+                    <!-- Originality Declaration Section -->
+                    <div class="originality-section">
+                        <h3>Originality Declaration</h3>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="originalityStatement" required>
+                            <label for="originalityStatement">
+                                I confirm this work is original or properly credited
+                                <small>Proper attribution is required for all referenced materials</small>
+                            </label>
+                        </div>
+                        <button type="button" id="checkPlagiarism" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-search"></i> Check for Plagiarism
+                        </button>
+                        <div id="plagiarismResult"></div>
+                    </div>
+                    
+                    <div class="form-group price-input">
+                        <label for="projectPrice">Price (₦)</label>
+                        <input type="number" id="projectPrice" class="form-control" placeholder="Set price in Naira" min="4000" value="4000" required>
+                    </div>
+                    
+                    <div class="progress-container" id="progressContainer">
+                        <div class="progress-bar" id="progressBar">0%</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" id="uploadBtn" class="btn upload-btn" disabled>
+                            <i class="fas fa-upload"></i> Upload Project
+                        </button>
+                    </div>
+                    <div id="uploadStatus"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://your-project-ref.supabase.co';
+        const supabaseKey = 'your-anon-key';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // DOM Elements
+        const uploadForm = document.getElementById('uploadForm');
+        const projectFile = document.getElementById('projectFile');
+        const checkPlagiarismBtn = document.getElementById('checkPlagiarism');
+        const plagiarismResult = document.getElementById('plagiarismResult');
+        const originalityStatement = document.getElementById('originalityStatement');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const userCategory = document.getElementById('userCategory');
+        const projectTypeContainer = document.getElementById('projectTypeContainer');
+        const projectType = document.getElementById('projectType');
+
+        // Project type options for each category
+        const projectTypes = {
+            student: [
+                'Research',
+                'Paper Presentation',
+                'Seminar',
+                'Project Work'
+            ],
+            lecturer: [
+                'Thesis',
+                'Article',
+                'Seminar',
+                'Paper Presentation',
+                'Publication',
+                'Conference Notes'
+            ],
+            researcher: [
+                'Research',
+                'Article',
+                'Thesis',
+                'Paper Presentation',
+                'Seminar',
+                'Publication',
+                'Conference Notes'
+            ]
+        };
+
+        // Handle category selection change
+        userCategory.addEventListener('change', (e) => {
+            if (e.target.value) {
+                // Clear and populate project types
+                projectType.innerHTML = '<option value="" disabled selected>Select project type</option>';
+                projectTypes[e.target.value].forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type.toLowerCase().replace(' ', '-');
+                    option.textContent = type;
+                    projectType.appendChild(option);
+                });
+                
+                // Show the project type field
+                projectTypeContainer.style.display = 'block';
+            } else {
+                projectTypeContainer.style.display = 'none';
+            }
+        });
+
+        // Check authentication status
+        async function checkAuth() {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error || !user) {
+                window.location.href = 'index.html';
+            }
+            return user;
+        }
+
+        // Simulate plagiarism check (in a real app, you'd call an API)
+        async function checkPlagiarism() {
+            const file = projectFile.files[0];
+            if (!file) {
+                showResult('Please select a file first', 'error');
+                return;
+            }
+
+            showResult('Checking for plagiarism...', 'warning');
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // For demo purposes, we'll simulate a successful check
+                const passed = true;
+                
+                if (passed) {
+                    showResult('✅ Plagiarism check passed! Your work appears original.', 'success');
+                    originalityStatement.checked = true;
+                    uploadBtn.disabled = false;
+                } else {
+                    showResult('⚠️ Potential plagiarism detected. Please review your work.', 'error');
+                    uploadBtn.disabled = true;
+                }
+            }, 2000);
+        }
+
+        function showResult(message, type) {
+            plagiarismResult.textContent = message;
+            plagiarismResult.className = type;
+            plagiarismResult.style.display = 'block';
+        }
+
+        // Handle form submission
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const user = await checkAuth();
+            if (!user) return;
+
+            const title = document.getElementById('projectTitle').value;
+            const userCategoryValue = document.getElementById('userCategory').value;
+            const projectTypeValue = document.getElementById('projectType').value;
+            const description = document.getElementById('projectDescription').value;
+            const keywords = document.getElementById('projectKeywords').value;
+            const price = document.getElementById('projectPrice').value;
+            const file = projectFile.files[0];
+
+            if (!file) {
+                showUploadStatus('Please select a file', 'error');
+                return;
+            }
+
+            if (!originalityStatement.checked) {
+                showUploadStatus('Please confirm originality statement', 'error');
+                return;
+            }
+
+            // Show progress bar
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressBar.textContent = '0%';
+
+            try {
+                // Upload file to Supabase Storage
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${user.id}/${Math.random()}.${fileExt}`;
+                const filePath = `projects/${fileName}`;
+
+                const { data: uploadData, error: uploadError } = await supabase.storage
+                    .from('projects')
+                    .upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: false,
+                        contentType: file.type,
+                        onUploadProgress: (progress) => {
+                            const percent = Math.round((progress.loaded / progress.total) * 100);
+                            progressBar.style.width = `${percent}%`;
+                            progressBar.textContent = `${percent}%`;
+                        }
+                    });
+
+                if (uploadError) throw uploadError;
+
+                // Get public URL of uploaded file
+                const { data: urlData } = supabase.storage
+                    .from('projects')
+                    .getPublicUrl(filePath);
+
+                // Create project record in database
+                const { data: projectData, error: projectError } = await supabase
+                    .from('projects')
+                    .insert([{
+                        title,
+                        description,
+                        keywords: keywords.split(',').map(k => k.trim()),
+                        price: parseFloat(price),
+                        file_url: urlData.publicUrl,
+                        file_name: file.name,
+                        file_type: file.type,
+                        user_id: user.id,
+                        user_category: userCategoryValue,
+                        project_type: projectTypeValue,
+                        status: 'published',
+                        originality_checked: true,
+                        plagiarism_score: 0,
+                        ai_score: 0
+                    }])
+                    .select();
+
+                if (projectError) throw projectError;
+
+                // Record activity
+                await supabase
+                    .from('activities')
+                    .insert([{
+                        user_id: user.id,
+                        description: `Uploaded project: ${title}`,
+                        type: 'upload'
+                    }]);
+
+                showUploadStatus('Project uploaded successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                showUploadStatus(`Upload failed: ${error.message}`, 'error');
+            } finally {
+                progressContainer.style.display = 'none';
+            }
+        });
+
+        function showUploadStatus(message, type) {
+            uploadStatus.textContent = message;
+            uploadStatus.className = type;
+        }
+
+        // Event listeners
+        checkPlagiarismBtn.addEventListener('click', checkPlagiarism);
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkAuth();
+        });
+    </script>
+</body>
+</html>

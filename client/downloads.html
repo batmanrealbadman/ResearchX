@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Downloads - ResearchX</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+    }
+    .header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+    .header h1 {
+      font-size: 2.5rem;
+      color: #38bdf8;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      padding: 30px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card h2 {
+      color: #38bdf8;
+      margin-bottom: 15px;
+    }
+    .card p {
+      line-height: 1.7;
+      color: #cbd5e1;
+    }
+    .button {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 12px 25px;
+      font-size: 1rem;
+      background-color: #38bdf8;
+      color: #0f172a;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+    .button:hover {
+      background-color: #0ea5e9;
+      color: white;
+    }
+    .download-icon {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+    .project-list {
+      background: #0f172a;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 40px;
+      box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+    .project-list h3 {
+      color: #facc15;
+      margin-bottom: 15px;
+    }
+    .project-item {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .project-item span {
+      color: #f8fafc;
+    }
+    .footer {
+      text-align: center;
+      padding: 40px 20px 20px;
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>📥 Your Downloads</h1>
+    <p style="color: #cbd5e1;">Explore your downloaded projects and access our free starter note</p>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>🧠 How ResearchX Works</h2>
+      <p>
+        ResearchX is a platform built for students, lecturers, and independent researchers to publish and share legitimate academic projects.
+        Unlike other sites, all submissions go through an advanced plagiarism detection system to ensure every project is original and credible.
+        <br><br>
+        Once signed up, users can:
+        <ul>
+          <li>🔍 Browse a wide variety of verified academic projects</li>
+          <li>📤 Upload their original research for others to access</li>
+          <li>💾 Download useful materials in their field of study</li>
+        </ul>
+      </p>
+      <a class="button" href="assets/ResearchX-Intro.pdf" download>
+        <i class="fas fa-download download-icon"></i> Download Free Note
+      </a>
+    </div>
+
+    <div class="card">
+      <h2>💸 How to Make Money with Your Research</h2>
+      <p>
+        Every time someone downloads your uploaded project, you earn a 10% royalty.
+        This gives researchers a fair incentive for their work while helping others grow.
+        <br><br>
+        🔒 Your content remains safe. Every project is watermarked and tracked. You retain full ownership and rights.
+        <br><br>
+        🧾 You can monitor your earnings through your dashboard and request payouts easily once you reach the withdrawal limit.
+        <br><br>
+        💼 Use ResearchX not only as a platform for visibility, but also as a passive income stream!
+      </p>
+    </div>
+
+    <div class="project-list">
+      <h3>🗂️ Your Downloaded Projects</h3>
+
+      <div class="project-item">
+        <span>📄 Introduction to Quantum Computing</span>
+        <a class="button" href="#">Download</a>
+      </div>
+
+      <div class="project-item">
+        <span>📄 Blockchain and the Future of Finance</span>
+        <a class="button" href="#">Download</a>
+      </div>
+
+      <div class="project-item">
+        <span>📄 AI in Healthcare: Opportunities and Risks</span>
+        <a class="button" href="#">Download</a>
+      </div>
+
+      <!-- Add more project items as needed -->
+    </div>
+
+  </div>
+
+  <div class="footer">
+    &copy; 2025 ResearchX. All rights reserved.
+  </div>
+
+</body>
+</html>

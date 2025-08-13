@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Nigerian Higher Institutions - ResearchX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0d6efd;
+            --secondary: #198754;
+            --accent: #fd7e14;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #0b5ed7);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(13, 110, 253, 0.8), rgba(13, 110, 253, 0.9)), url('https://placehold.co/1200x600/0d6efd/white?text=Nigerian+Institutions') no-repeat center center/cover;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Institutions Section */
+        .institutions-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .institution-type {
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .institution-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .institution-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .institution-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .institution-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .institution-type.active .institution-content {
+            padding: 25px;
+            max-height: 2000px;
+        }
+
+        .institution-type.active .institution-header i {
+            transform: rotate(180deg);
+        }
+
+        .institution-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .institution-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .institution-item:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .institution-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            padding-left: 45px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        /* Institution Modal Styles */
+        .institution-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .institution-modal .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .institution-modal h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .institution-modal .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .courses-list {
+            columns: 2;
+            margin: 15px 0;
+        }
+        
+        .courses-list li {
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+        
+        .modal-actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .modal-actions .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-actions .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .modal-actions .btn-primary:hover {
+            background: #0b5ed7;
+        }
+        
+        .institution-info {
+            margin-bottom: 15px;
+        }
+        
+        .institution-info p {
+            margin-bottom: 8px;
+        }
+        
+        .institution-info a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .institution-info a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            .courses-list {
+                columns: 1;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .institution-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>ResearchX</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="all-institutions.html">All Institutions</a></li>
+                    <li><a href="upload.html">Upload</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>All Nigerian Higher Institutions</h1>
+            <p>Comprehensive list of universities, polytechnics, and colleges of education in Nigeria with course details</p>
+        </div>
+    </section>
+
+    <!-- Institutions Section -->
+    <section class="institutions-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nigerian Higher Education Institutions</h2>
+                <p>Browse institutions by category - Click any institution to view details</p>
+            </div>
+
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="institutionSearch" placeholder="Search for institutions...">
+            </div>
+
+            <!-- Federal Universities -->
+            <div class="institution-type active">
+                <div class="institution-header">
+                    <h3>Federal Universities</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="institution-content">
+                    <div class="institution-list" id="federalUniversities">
+                        <!-- Federal universities will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- State Universities -->
+            <div class="institution-type active">
+                <div class="institution-header">
+                    <h3>State Universities</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="institution-content">
+                    <div class="institution-list" id="stateUniversities">
+                        <!-- State universities will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Private Universities -->
+            <div class="institution-type active">
+                <div class="institution-header">
+                    <h3>Private Universities</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="institution-content">
+                    <div class="institution-list" id="privateUniversities">
+                        <!-- Private universities will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Federal Polytechnics -->
+            <div class="institution-type">
+                <div class="institution-header">
+                    <h3>Federal Polytechnics</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="institution-content">
+                    <div class="institution-list" id="federalPolytechnics">
+                        <!-- Federal polytechnics will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- State Polytechnics -->
+            <div class="institution-type">
+                <div class="institution-header">
+                    <h3>State Polytechnics</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="institution-content">
+                    <div class="institution-list" id="statePolytechnics">
+                        <!-- State polytechnics will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colleges of Education -->
+            <div class="institution-type">
+                <div class="institution-header">
+                    <h3>Colleges of Education</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="institution-content">
+                    <div class="institution-list" id="collegesOfEducation">
+                        <!-- Colleges of education will be inserted here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ResearchX</h3>
+                    <p>Nigeria's premier platform for academic research sharing and collaboration across higher institutions.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="all-institutions.html">Institutions</a></li>
+                        <li><a href="upload.html">Upload Research</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@researchx.ng">info@researchx.ng</a></li>
+                        <li><a href="tel:+2348000000000">+234 800 000 0000</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ResearchX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Institution data from NBTE website and other official sources
+        const institutions = {
+            federalUniversities: [
+                "Abubakar Tafawa Balewa University, Bauchi",
+                "Ahmadu Bello University, Zaria",
+                "Bayero University, Kano",
+                "Federal University Gashua, Yobe",
+                "Federal University of Petroleum Resources, Effurun",
+                "Federal University of Technology, Akure",
+                "Federal University of Technology, Minna",
+                "Federal University of Technology, Owerri",
+                "Federal University, Dutse, Jigawa State",
+                "Federal University, Dutsin-Ma, Katsina",
+                "Federal University, Kashere, Gombe State",
+                "Federal University, Lafia, Nasarawa State",
+                "Federal University, Lokoja, Kogi State",
+                "Michael Okpara University of Agricultural Umudike",
+                "Modibbo Adama University of Technology, Yola",
+                "National Open University of Nigeria, Lagos",
+                "Nigerian Defence Academy, Kaduna",
+                "Airforce institution of technology, Kaduna",
+                "Nnamdi Azikiwe University, Awka",
+                "Obafemi Awolowo University, Ile-Ife",
+                "University of Abuja, Gwagwalada",
+                "University of Agriculture, Makurdi",
+                "University of Benin",
+                "University of Calabar",
+                "University of Ibadan",
+                "University of Ilorin",
+                "University of Jos",
+                "University of Lagos",
+                "University of Maiduguri",
+                "University of Nigeria, Nsukka",
+                "University of Port-Harcourt",
+                "University of Uyo",
+                "Usumanu Danfodiyo University"
+            ],
+            stateUniversities: [
+                "Abia State University, Uturu",
+                "Adamawa State University, Mubi",
+                "Adekunle Ajasin University, Akungba",
+                "Ambrose Alli University, Ekpoma",
+                "Chukwuemeka Odumegwu Ojukwu University, Uli",
+                "Delta State University, Abraka",
+                "Ebonyi State University, Abakaliki",
+                "Ekiti State University, Ado-Ekiti",
+                "Enugu State University of Science and Technology, Enugu",
+                "Gombe State University, Gombe",
+                "Ibrahim Badamasi Babangida University, Lapai",
+                "Ignatius Ajuru University of Education, Rumuolumeni",
+                "Imo State University, Owerri",
+                "Kaduna State University, Kaduna",
+                "Kano University of Science & Technology, Wudil",
+                "Kebbi State University of Science and Technology, Aliero",
+                "Kogi State University, Anyigba",
+                "Kwara State University, Ilorin",
+                "Ladoke Akintola University of Technology, Ogbomoso",
+                "Lagos State University, Ojo",
+                "Nasarawa State University, Keffi",
+                "Niger Delta University, Yenagoa",
+                "Olabisi Onabanjo University, Ago-Iwoye",
+                "Ondo State University of Science and Technology, Okitipupa",
+                "Osun State University, Osogbo",
+                "Plateau State University, Bokkos",
+                "Rivers State University, Port Harcourt",
+                "Sokoto State University, Sokoto",
+                "Tai Solarin University of Education, Ijebu-Ode",
+                "Taraba State University, Jalingo",
+                "Technical University, Ibadan",
+                "Umaru Musa Yar'adua University, Katsina",
+                "Yobe State University, Damaturu"
+            ],
+            privateUniversities: [
+                "Achievers University, Owo",
+                "Afe Babalola University, Ado-Ekiti",
+                "African University of Science & Technology, Abuja",
+                "Ahmadu Bello University, Zaria",
+                "Ajayi Crowther University, Ibadan",
+                "Al-Hikmah University, Ilorin",
+                "Al-Qalam University, Katsina",
+                "American University of Nigeria, Yola",
+                "Augustine University, Ilara",
+                "Babcock University, Ilishan-Remo",
+                "Baze University, Abuja",
+                "Bells University of Technology, Otta",
+                "Benson Idahosa University, Benin City",
+                "Bingham University, New Karu",
+                "Bowen University, Iwo",
+                "Caleb University, Lagos",
+                "Caritas University, Enugu",
+                "Chrisland University, Owode",
+                "Covenant University, Ota",
+                "Crawford University, Igbesa",
+                "Crescent University, Abeokuta",
+                "Edwin Clark University, Kiagbodo",
+                "Elizade University, Ilara-Mokin",
+                "Evangel University, Akaeze",
+                "Fountain University, Osogbo",
+                "Greenfield university, Kaduna",
+                "Godfrey Okoye University, Ugwuomu-Nike",
+                "Gregory University, Uturu",
+                "Hallmark University, Ijebu-Itele",
+                "Hezekiah University, Umudi",
+                "Igbinedion University, Okada",
+                "Joseph Ayo Babalola University, Ikeji-Arakeji",
+                "Kings University, Ode Omu",
+                "Kola Daisi University, Ibadan",
+                "Landmark University, Omu-Aran",
+                "Lead City University, Ibadan",
+                "Madonna University, Okija",
+                "McPherson University, Seriki Sotayo",
+                "Micheal & Cecilia Ibru University, Owhrode",
+                "Mountain Top University, Makogi-Oba",
+                "Nile University of Nigeria, Abuja",
+                "Novena University, Ogume",
+                "Obong University, Obong Ntak",
+                "Oduduwa University, Ipetumodu",
+                "Pan-Atlantic University, Lagos",
+                "Paul University, Awka",
+                "Redeemer's University, Ede",
+                "Renaissance University, Enugu",
+                "Rhema University, Obeama-Asa",
+                "Ritman University, Ikot Ekpene",
+                "Salem University, Lokoja",
+                "Samuel Adegboyega University, Ogwa",
+                "Southwestern University, Okun-Owa",
+                "Summit University, Offa",
+                "Nok university, Kaduna",
+                "Tansian University, Umunya",
+                "University of Mkar, Mkar",
+                "Veritas University, Abuja",
+                "Wellspring University, Evbuobanosa",
+                "Wesley University of Science & Technology, Ondo",
+                "Western Delta University, Oghara",
+                "Christopher University, Mowe"
+            ],
+            federalPolytechnics: [
+                "Federal Polytechnic, Ado-Ekiti",
+                "Federal Polytechnic, Bida",
+                "Federal Polytechnic, Damaturu",
+                "Federal Polytechnic, Ede",
+                "Federal Polytechnic, Idah",
+                "Federal Polytechnic, Ilaro",
+                "Federal Polytechnic, Kaura Namoda",
+                "Federal Polytechnic, Mubi",
+                "Federal Polytechnic, Nasarawa",
+                "Federal Polytechnic, Nekede",
+                "Federal Polytechnic, Offa",
+                "Federal Polytechnic, Oko",
+                "Federal Polytechnic, Bauchi",
+                "Federal Polytechnic, Bali",
+                "Federal Polytechnic, Birnin Kebbi",
+                "Federal Polytechnic, Ohodo",
+                "Federal Polytechnic, Ukana",
+                "Federal Polytechnic, Uwana",
+                "Federal Polytechnic, Wannune",
+                "Federal Polytechnic, Damaturu"
+            ],
+            statePolytechnics: [
+                "Abia State Polytechnic, Aba",
+                "Adamawa State Polytechnic, Yola",
+                "Akwa Ibom State Polytechnic",
+                "Edo State Polytechnic, Usen",
+                "Ekiti State University, Ado-Ekiti",
+                "Enugu State Polytechnic, Iwollo",
+                "Gateway Polytechnic, Saapade",
+                "Hussaini Adamu Federal Polytechnic, Kazaure",
+                "Imo State Polytechnic, Umuagwo",
+                "Institute of Management and Technology, Enugu",
+                "Kaduna Polytechnic, Kaduna",
+                "Kano State Polytechnic",
+                "Kogi State Polytechnic, Lokoja",
+                "Kwara State Polytechnic, Ilorin",
+                "Lagos State Polytechnic, Ikorodu",
+                "Nasarawa State Polytechnic, Lafia",
+                "Nuhu Bamalli Polytechnic, Zaria",
+                "Ogun State Institute of Technology, Igbesa",
+                "Osun State Polytechnic, Iree",
+                "Plateau State Polytechnic, Barkin Ladi",
+                "Ramat Polytechnic, Maiduguri",
+                "Rivers State Polytechnic, Bori",
+                "Rufus Giwa Polytechnic, Owo",
+                "The Polytechnic, Ibadan",
+                "Yaba College of Technology, Yaba"
+            ],
+            collegesOfHealth: [
+                "Department of nursing sciences, huda university,gusau",
+                "Department of nursing sciences, talatar mafar, zamfara",
+                "Department of nursing sciences, cosmopolitan university, abuja",
+                "faculty of nursing, fct abuja",
+                "Department of nursing sciences, lawrenece margaret galili university, abuja",
+                "Department of nursing sciences, baze university, fct abuja",
+                "Department of nursing sciences, university of umunya, anambra state",
+                "Department of nursing sciences, western university"
+            ],
+            collegesOfEducation: [
+                "Adeyemi College of Education, Ondo",
+                "Alvan Ikoku Federal College of Education, Owerri",
+                "Federal College of Education (Technical), Akoka",
+                "Federal College of Education (Technical), Bichi",
+                "Federal College of Education (Technical), Gombe",
+                "Federal College of Education (Technical), Gusau",
+                "Federal College of Education (Technical), Omoku",
+                "Federal College of Education (Technical), Potiskum",
+                "Federal College of Education (Technical), Umunze",
+                "Federal College of Education, Abeokuta",
+                "Federal College of Education, Eha-Amufu",
+                "Federal College of Education, Kontagora",
+                "Federal College of Education, Obudu",
+                "Federal College of Education, Okene",
+                "Federal College of Education, Osiele",
+                "Federal College of Education, Pankshin",
+                "Federal College of Education, Yola",
+                "Federal College of Education, Zaria",
+                "Kwara State College of Education, Ilorin",
+                "Lagos State College of Education, Ijanikin",
+                "Niger State College of Education, Minna",
+                "Nigerian college of avaiation technology, kaduna",
+                "Osun State College of Education, Ilesa",
+                "Oyo State College of Education, Lanlate",
+                "Tai Solarin College of Education, Ijebu-Ode"
+            ]
+        };
+
+        // Detailed information for each institution
+        const institutionDetails = {
+            // Federal Universities
+            "Abubakar Tafawa Balewa University, Bauchi": {
+                location: "Bauchi, Bauchi State",
+                website: "https://www.atbu.edu.ng",
+                courses: [
+                    "Agricultural Engineering",
+                    "Architecture",
+                    "Building Technology",
+                    "Chemical Engineering",
+                    "Civil Engineering",
+                    "Computer Science",
+                    "Electrical/Electronic Engineering",
+                    "Estate Management",
+                    "Mechanical Engineering",
+                    "Quantity Surveying",
+                    "Surveying and Geo-Informatics",
+                    "Urban and Regional Planning"
+                ]
+            },
+            "Federal University Gashua, Yobe": {
+                location: "Gashua, Yobe State",
+                website: "https://fugashua.edu.ng",
+                courses: [
+                    "Accounting",
+                    "Agriculture",
+                    "Arabic Studies",
+                    "Biology",
+                    "Business Administration",
+                    "Computer Science",
+                    "Chemistry",
+                    "Economics & Development Studies",
+                    "English Language",
+                    "Fisheries & Aquaculture",
+                    "Forestry & Wildlife Management",
+                    "History & International Studies"
+                ]
+            },
+            "Federal University of Petroleum Resources, Effurun": {
+                location: "Effurun, Delta State",
+                website: "https://fupre.edu.ng",
+                courses: [
+                    "Accounting",
+                    "Chemical Engineering",
+                    "Computer Science",
+                    "Electrical/Electronic Engineering",
+                    "Environmental Management",
+                    "Geology",
+                    "Marine Engineering",
+                    "Mathematics",
+                    "Mechanical Engineering",
+                    "Petroleum Engineering",
+                    "Physics",
+                    "Statistics"
+                ]
+            },
+            "Ahmadu Bello University, Zaria": {
+                location: "Zaria, Kaduna State",
+                website: "https://www.abu.edu.ng",
+                courses: [
+                    "Accounting",
+                    "Agricultural Engineering",
+                    "Architecture",
+                    "Biochemistry",
+                    "Business Administration",
+                    "Chemical Engineering",
+                    "Civil Engineering",
+                    "Computer Science",
+                    "Economics",
+                    "Electrical Engineering",
+                    "Law",
+                    "Mechanical Engineering",
+                    "Medicine and Surgery",
+                    "Pharmacy"
+                ]
+            },
+            "Airforce institution of technology, Kaduna": {
+                location: "Kaduna, Kaduna State",
+                website: "https://www.afit.edu.ng",
+                courses: [
+                    "Accounting",
+                    "Aerospace Engineering",
+                    "Automotive Engineering",
+                    "Banking and Finance",
+                    "Business Administration",
+                    "Chemistry",
+                    "Civil Engineering",
+                    "Computer Science",
+                    "Cyber Security",
+                    "Economics",
+                    "Electrical/Electronic Engineering",
+                    "International Relations",
+                    "Mathematics",
+                    "Mechanical Engineering",
+                    "Mechatronics Engineering",
+                    "Metallurgical and Materials Engineering",
+                    "Physics with Electronics",
+                    "Statistics",
+                    "Telecommunication Engineering"
+                ]
+            },
+            "Nigerian Defence Academy, Kaduna": {
+                location: "Kaduna, Kaduna State",
+                website: "https://www.nda.edu.ng",
+                courses: [
+                    "Accounting",
+                    "Biological Sciences",
+                    "Biotechnology",
+                    "Chemistry",
+                    "Civil Engineering",
+                    "Computer Science",
+                    "Economics",
+                    "Electrical/Electronics Engineering",
+                    "French",
+                    "Geography",
+                    "History",
+                    "Intelligence and Security Studies",
+                    "Management",
+                    "Mathematics",
+                    "Mechanical Engineering",
+                    "Mechatronics Engineering",
+                    "Physics",
+                    "Political Science and Defence Studies",
+                    "Psychology",
+                    "Transport and Logistics Management"
+                ]
+            },
+            "Lagos State University, Ojo": {
+                location: "Ojo, Lagos State",
+                website: "https://www.lasu.edu.ng",
+                courses: [
+                    "Accounting",
+                    "Banking and Finance",
+                    "Business Administration",
+                    "Computer Science",
+                    "Economics",
+                    "English Language",
+                    "Law",
+                    "Mass Communication",
+                    "Medicine and Surgery",
+                    "Political Science",
+                    "Psychology",
+                    "Sociology"
+                ]
+            },
+            "Greenfield university, Kaduna": {
+                location: "Kaduna, Kaduna State",
+                website: "https://www.gfu.edu.ng",
+                courses: [
+                    "Accounting",
+                    "Biotechnology",
+                    "Business Administration",
+                    "Chemistry",
+                    "Civil Engineering",
+                    "Criminology and Security Studies",
+                    "Cyber Security",
+                    "Economics",
+                    "Mechanical Engineering",
+                    "Physics with Electronics",
+                    "Political Science",
+                    "Psychology"
+                ]
+            },
+            "Covenant University, Ota": {
+                location: "Ota, Ogun State",
+                website: "https://www.covenantuniversity.edu.ng",
+                courses: [
+                    "Accounting",
+                    "Architecture",
+                    "Banking and Finance",
+                    "Biochemistry",
+                    "Business Administration",
+                    "Chemical Engineering",
+                    "Civil Engineering",
+                    "Computer Engineering",
+                    "Computer Science",
+                    "Economics",
+                    "Electrical and Electronics Engineering",
+                    "Information and Communication Engineering",
+                    "Mass Communication",
+                    "Mechanical Engineering",
+                    "Petroleum Engineering"
+                ]
+            },
+            // Default courses for institutions not specifically listed
+            "default": {
+                location: "Various locations",
+                website: "#",
+                courses: [
+                    "Accounting",
+                    "Business Administration",
+                    "Civil Engineering",
+                    "Computer Science",
+                    "Cyber Security",
+                    "Economics",
+                    "Electrical/Electronic Engineering",
+                    "International Relations",
+                    "Mass Communication",
+                    "Mechanical Engineering",
+                    "Political Science",
+                    "Public Administration"
+                ]
+            }
+        };
+
+        // Function to get institution details or use default
+        function getInstitutionDetails(institutionName) {
+            return institutionDetails[institutionName] || {
+                ...institutionDetails.default,
+                location: institutionName.split(',')[1] ? institutionName.split(',')[1].trim() : "Various locations",
+                website: "#"
+            };
+        }
+
+        // Function to populate institution lists
+        function populateInstitutions() {
+            for (const type in institutions) {
+                const container = document.getElementById(type);
+                if (container) {
+                    container.innerHTML = institutions[type].map(inst => `
+                        <div class="institution-item" data-institution="${inst}">
+                            <i class="fas fa-school"></i>
+                            <span>${inst}</span>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        // Function to handle institution clicks
+        function setupInstitutionClickHandlers() {
+            document.querySelectorAll('.institution-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const institutionName = this.getAttribute('data-institution');
+                    showInstitutionDetails(institutionName);
+                });
+            });
+        }
+
+        // Function to show institution details
+        function showInstitutionDetails(institutionName) {
+            const details = getInstitutionDetails(institutionName);
+
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'institution-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <h3>${institutionName}</h3>
+                    
+                    <div class="institution-info">
+                        <p><strong>Location:</strong> ${details.location}</p>
+                        <p><strong>Website:</strong> <a href="${details.website}" target="_blank">${details.website}</a></p>
+                    </div>
+                    
+                    <h4>Available Courses</h4>
+                    <ul class="courses-list">
+                        ${details.courses.map(course => `<li>${course}</li>`).join('')}
+                    </ul>
+                    
+                    <div class="modal-actions">
+                        <button class="btn btn-primary view-projects">View Projects from this Institution</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Add close handler
+            modal.querySelector('.close-modal').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+            
+            // Add projects button handler
+            modal.querySelector('.view-projects').addEventListener('click', function() {
+                filterProjectsByInstitution(institutionName);
+                document.body.removeChild(modal);
+            });
+        }
+
+        // Function to filter projects by institution
+        function filterProjectsByInstitution(institutionName) {
+            // This would connect to your Firebase database in a real implementation
+            console.log(`Filtering projects for: ${institutionName}`);
+            
+            // In a real app, you would:
+            // 1. Query your Firestore database for projects from this institution
+            // 2. Display the filtered results on your projects page
+            
+            // For now, we'll just show an alert
+            alert(`Would normally show projects from ${institutionName}. In a full implementation, this would filter your projects list.`);
+            
+            // You could also redirect to your projects page with a query parameter
+            // window.location.href = `projects.html?institution=${encodeURIComponent(institutionName)}`;
+        }
+
+        // Search functionality
+        document.getElementById('institutionSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            // Hide all institution types initially
+            document.querySelectorAll('.institution-type').forEach(type => {
+                type.classList.remove('active');
+            });
+            
+            // Search through all institutions
+            for (const type in institutions) {
+                const container = document.getElementById(type);
+                if (container) {
+                    const items = container.querySelectorAll('.institution-item');
+                    let hasMatches = false;
+                    
+                    items.forEach(item => {
+                        const text = item.textContent.toLowerCase();
+                        if (text.includes(searchTerm)) {
+                            item.style.display = 'flex';
+                            hasMatches = true;
+                            // Show the parent institution type if there's a match
+                            item.closest('.institution-type').classList.add('active');
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+            }
+            
+            // If search is empty, show all institutions
+            if (searchTerm === '') {
+                document.querySelectorAll('.institution-type').forEach(type => {
+                    type.classList.add('active');
+                    type.querySelectorAll('.institution-item').forEach(item => {
+                        item.style.display = 'flex';
+                    });
+                });
+            }
+        });
+
+        // Toggle institution sections
+        document.querySelectorAll('.institution-header').forEach(header => {
+            header.addEventListener('click', function() {
+                this.parentElement.classList.toggle('active');
+            });
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            populateInstitutions();
+            setupInstitutionClickHandlers();
+            
+            // Activate the first 3 sections by default
+            document.querySelectorAll('.institution-type').forEach((type, index) => {
+                if (index < 3) type.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

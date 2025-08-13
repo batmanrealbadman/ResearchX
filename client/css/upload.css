@@ -1,0 +1,77 @@
+/* Upload Section */
+.upload-section {
+    background: linear-gradient(to right, #e7f4ff, #fff);
+    padding: 80px 0;
+}
+
+.upload-container {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.upload-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.upload-header h2 {
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+.upload-form {
+    display: grid;
+    gap: 20px;
+}
+
+.upload-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+textarea.form-control {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.price-input {
+    position: relative;
+}
+
+.price-input::before {
+    content: "₦";
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+}
+
+.price-input input {
+    padding-left: 30px;
+}
+
+.upload-btn {
+    background: var(--secondary);
+    color: white;
+    padding: 15px;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+#plagiarismResult {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
+
+#uploadStatus {
+    text-align: center;
+    margin-top: 15px;
+}

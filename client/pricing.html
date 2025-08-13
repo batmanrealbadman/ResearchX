@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - ResearchX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #0d6efd;
+            --secondary: #198754;
+            --accent: #fd7e14;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #198754;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #0b5ed7);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .pricing-hero {
+            background: linear-gradient(rgba(13, 110, 253, 0.8), rgba(13, 110, 253, 0.9)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .pricing-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .money-badge {
+            background: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--accent);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .pricing-header {
+            padding: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), #0b5ed7);
+            color: white;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .price span {
+            font-size: 1rem;
+            font-weight: normal;
+        }
+
+        .pricing-body {
+            padding: 30px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features-list li i {
+            color: var(--success);
+        }
+
+        .earnings-highlight {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            border-left: 4px solid var(--success);
+        }
+
+        .earnings-highlight h4 {
+            color: var(--success);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #0b5ed7;
+            transform: translateY(-2px);
+        }
+
+        /* Earnings Calculator */
+        .calculator-section {
+            background: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .calculator-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .calculator-title {
+            margin-bottom: 30px;
+        }
+
+        .calculator-title h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .calculator-input {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .calculator-input label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .calculator-input input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .calculator-result {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .faq-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .faq-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-content {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-header i {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Proudly Nigerian Section */
+        .proudly-nigerian {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .proudly-nigerian img {
+            width: 60px;
+            height: 40px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .proudly-nigerian p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .pricing-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .pricing-hero p {
+                font-size: 1.1rem;
+            }
+
+            .pricing-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pricing-card {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>PricingX</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="new.html">Home</a></li>
+                    <li><a href="upload.html">Upload</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pricing-hero">
+        <div class="container">
+            <h1>Smart Pricing, Smarter Earnings</h1>
+            <p>Upload once, earn repeatedly. Get 10% of every download your research receives!</p>
+            <div class="money-badge">
+                <i class="fas fa-coins"></i> Turn Your Research Into Passive Income
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose the option that works best for you. Remember, every upload is an earning opportunity!</p>
+            </div>
+
+            <div class="pricing-cards">
+                <!-- Upload Card -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <div class="pricing-header">
+                        <h3>Upload Research</h3>
+                        <div class="price">₦3,000 <span>per project</span></div>
+                        <p>Start earning from your work</p>
+                    </div>
+                    <div class="pricing-body">
+                        <ul class="features-list">
+                            <li><i class="fas fa-check-circle"></i> One-time upload fee</li>
+                            <li><i class="fas fa-check-circle"></i> Quality review included</li>
+                            <li><i class="fas fa-check-circle"></i> Permanent storage</li>
+                            <li><i class="fas fa-check-circle"></i> Global visibility</li>
+                            <li><i class="fas fa-check-circle"></i> Citation tracking</li>
+                        </ul>
+                        <div class="earnings-highlight">
+                            <h4></h4>
+                </div>
+                        <a href="projects.html" class="btn btn-primary">Start Uploading</a>
+                    </div>
+                </div>
+
+                <!-- Download Card -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Download Research</h3>
+                        <div class="price">₦6,000 <span>per project</span></div>
+                        <p>Access premium academic content</p>
+                    </div>
+                    <div class="pricing-body">
+                        <ul class="features-list">
+                            <li><i class="fas fa-check-circle"></i> Full research paper</li>
+                            <li><i class="fas fa-check-circle"></i> All supplementary materials</li>
+                            <li><i class="fas fa-check-circle"></i> Unlimited access</li>
+                            <li><i class="fas fa-check-circle"></i> Printable format</li>
+                            <li><i class="fas fa-check-circle"></i> Citation tools included</li>
+                        </ul>
+                        <div class="earnings-highlight">
+                            <h4>Support Researchers</h4>
+                            <p>₦10% of your payment goes directly to the researcher & Earn ₦(10%) including your school from every download of your research</p>
+                        </div>
+                        <a href="downloads.html" class="btn btn-primary">Browse Research</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Earnings Calculator -->
+    <section class="calculator-section">
+        <div class="container">
+            <div class="calculator-container">
+                <div class="calculator-title">
+                    <h3>Calculate Your Potential Earnings</h3>
+                    <p>See how much you could earn from your research</p>
+                </div>
+                <div class="calculator-input">
+                    <label for="downloads">Estimated Monthly Downloads:</label>
+                    <input type="number" id="downloads" min="0" value="10">
+                </div>
+                <div class="calculator-result" id="earnings-result">
+                    Potential Monthly Earnings: ₦6,000
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Everything you need to know about our pricing and earnings</p>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header">
+                    <span>How do I get paid for my research?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-content">
+                    <p>We process payments monthly through bank transfers or mobile money. You'll need to set up your payment method in your account settings once your earnings reach our minimum payout threshold of ₦5,000.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header">
+                    <span>Is there any limit to how much I can earn?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-content">
+                    <p>No limits! The more downloads your research receives, the more you earn. Some of our top researchers earn over ₦50,000 monthly from popular papers.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header">
+                    <span>What types of research can I upload?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-content">
+                    <p>We accept quality academic research across all disciplines - from sciences to humanities. All submissions go through a quality review to ensure they meet our academic standards.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-header">
+                    <span>Can I upload research I've co-authored?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-content">
+                    <p>Yes, but all co-authors must agree to the upload. You'll need to specify the earnings distribution among authors during the upload process.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ResearchX</h3>
+                    <p>Nigeria's premier platform for academic research sharing and collaboration across higher institutions.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="new.html">Home</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="upload.html">Upload Research</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@researchx.ng">info@researchx.ng</a></li>
+                        <li><a href="tel:+2347083046066">+234 7083046066</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Proudly Nigerian Section -->
+            <div class="proudly-nigerian">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Flag_of_Nigeria.svg" 
+                     alt="Nigerian Flag">
+                <p>Proudly Nigerian</p>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 ResearchX. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Earnings Calculator
+        const downloadsInput = document.getElementById('downloads');
+        const earningsResult = document.getElementById('earnings-result');
+        
+        downloadsInput.addEventListener('input', function() {
+            const downloads = parseInt(this.value) || 0;
+            const earnings = downloads 10% of ₦6,000
+            earningsResult.textContent = `Potential Monthly Earnings: ₦${earnings.toLocaleString()}`;
+        });
+        
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const header = item.querySelector('.faq-header');
+            header.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Animate pricing cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const pricingCards = document.querySelectorAll('.pricing-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            pricingCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
