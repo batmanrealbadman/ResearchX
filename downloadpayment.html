@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment - ResearchX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        
+        .payment-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .payment-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .payment-header h1 {
+            color: #0d6efd;
+            margin-bottom: 10px;
+        }
+        
+        .project-details {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .project-info {
+            flex: 1;
+        }
+        
+        .project-info h3 {
+            margin-bottom: 10px;
+        }
+        
+        .price-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #198754;
+        }
+        
+        .payment-methods {
+            margin-top: 30px;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-method:hover {
+            border-color: #0d6efd;
+            background: #f0f7ff;
+        }
+        
+        .payment-method i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #0d6efd;
+        }
+        
+        .payment-method.active {
+            border: 2px solid #0d6efd;
+            background: #f0f7ff;
+        }
+        
+        .btn-pay {
+            background: #198754;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-pay:hover {
+            background: #157347;
+        }
+        
+        .payment-status {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="payment-card">
+            <div class="payment-header">
+                <h1><i class="fas fa-lock"></i> Complete Your Payment</h1>
+                <p>Secure payment for downlaoding projects</p>
+            </div>
+            
+            <div class="project-details">
+                <div class="project-info">
+                    <h3 id="project-title">Project Title</h3>
+                    <p id="project-description">Project description will appear here</p>
+                    <p><strong>Author:</strong> <span id="project-author">Loading...</span></p>
+                    <p><strong>Institution:</strong> <span id="project-institution">Loading...</span></p>
+                </div>
+                <div class="price-section">
+                    <p>Total Amount</p>
+                    <div class="price" id="project-price">₦6,000</div>
+                </div>
+            </div>
+            
+            <div class="payment-methods">
+                <h3>Select Payment Method</h3>
+                
+                <div class="payment-method active" data-method="paystack">
+                    <i class="fab fa-cc-stripe"></i>
+                    <div>
+                        <h4>Paystack (Cards, Bank Transfer)</h4>
+                        <p>Visa, Mastercard, Verve, Bank Transfer</p>
+                    </div>
+                </div>
+                
+                <div class="payment-method" data-method="flutterwave">
+                    <i class="fas fa-credit-card"></i>
+                    <div>
+                        <h4>Flutterwave</h4>
+                        <p>All cards and mobile money</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="pay-btn" class="btn-pay">
+                <span id="pay-btn-text">Pay Now</span>
+            </button>
+            
+            <div id="payment-status" class="payment-status"></div>
+        </div>
+    </div>
+
+    <!-- Firebase and Payment JS -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    
+    <script>
+        // Initialize Firebase (replace with your config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyC46UoGcFS4uimDYIekC1djXmgcDbNJVEs",
+            authDomain: "researchx-76c2a.firebaseapp.com",
+            projectId: "researchx-76c2a",
+            storageBucket: "researchx-76c2a.firebasestorage.app",
+            messagingSenderId: "89094669834",
+            appId: "1:89094669834:web:90223876b735b804bcc1f3"
+        };
+        firebase.initializeApp(firebaseConfig);
+        
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        
+        // Get project ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('projectId');
+        let paymentMethod = 'paystack';
+        
+        // Set up payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+                method.classList.add('active');
+                paymentMethod = method.dataset.method;
+            });
+        });
+        
+        // Load project details
+        async function loadProjectDetails() {
+            if (!projectId) {
+                showError('No project specified');
+                return;
+            }
+            
+            try {
+                const doc = await db.collection('projects').doc(projectId).get();
+                if (!doc.exists) {
+                    showError('Project not found');
+                    return;
+                }
+                
+                const project = doc.data();
+                document.getElementById('project-title').textContent = project.title;
+                document.getElementById('project-description').textContent = project.description;
+                document.getElementById('project-price').textContent = `₦${project.price.toLocaleString()}`;
+                
+                // Load author details
+                const author = await db.collection('users').doc(project.authorId).get();
+                if (author.exists) {
+                    document.getElementById('project-author').textContent = `${author.data().firstName} ${author.data().surname}`;
+                    document.getElementById('project-institution').textContent = author.data().institution || 'Not specified';
+                }
+            } catch (error) {
+                showError('Error loading project: ' + error.message);
+            }
+        }
+        
+        // Handle payment
+        document.getElementById('pay-btn').addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (!user) {
+                showError('Please login to make payment');
+                return;
+            }
+            
+            if (!projectId) {
+                showError('No project specified');
+                return;
+            }
+            
+            try {
+                setLoading(true);
+                
+                // Get project price
+                const projectDoc = await db.collection('projects').doc(projectId).get();
+                if (!projectDoc.exists) {
+                    showError('Project not found');
+                    return;
+                }
+                
+                const project = projectDoc.data();
+                const amount = project.price * 100; // Convert to kobo/pesewas
+                
+                // Call backend to initialize payment
+                const response = await fetch('/.netlify/functions/server/payment/initiate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await user.getIdToken()}`
+                    },
+                    body: JSON.stringify({
+                        projectId,
+                        amount,
+                        email: user.email,
+                        paymentMethod
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Payment failed');
+                }
+                
+                if (paymentMethod === 'paystack') {
+                    // Initialize Paystack payment
+                    const handler = PaystackPop.setup({
+                        key: result.paystackKey,
+                        email: user.email,
+                        amount: amount,
+                        currency: 'NGN',
+                        ref: result.reference,
+                        callback: function(response) {
+                            verifyPayment(response.reference);
+                        },
+                        onClose: function() {
+                            setLoading(false);
+                        }
+                    });
+                    handler.openIframe();
+                } else {
+                    // For other payment methods
+                    window.location.href = result.paymentUrl;
+                }
+                
+            } catch (error) {
+                showError(error.message);
+                setLoading(false);
+            }
+        });
+        
+        // Verify payment after completion
+        async function verifyPayment(reference) {
+            try {
+                setLoading(true);
+                showStatus('Verifying payment...', '');
+                
+                const user = auth.currentUser;
+                const response = await fetch('/.netlify/functions/server/payment/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${await user.getIdToken()}`
+                    },
+                    body: JSON.stringify({
+                        projectId,
+                        reference
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(result.error || 'Payment verification failed');
+                }
+                
+                showStatus('Payment successful! Your project will be processed shortly.', 'success');
+                setTimeout(() => {
+                    window.location.href = '/dashboard.html';
+                }, 3000);
+                
+            } catch (error) {
+                showError('Verification failed: ' + error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        // Helper functions
+        function setLoading(isLoading) {
+            const btn = document.getElementById('pay-btn');
+            const btnText = document.getElementById('pay-btn-text');
+            
+            if (isLoading) {
+                btn.disabled = true;
+                btnText.innerHTML = `<span class="loading"></span> Processing...`;
+            } else {
+                btn.disabled = false;
+                btnText.textContent = 'Pay Now';
+            }
+        }
+        
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('payment-status');
+            statusEl.textContent = message;
+            statusEl.className = `payment-status ${type}`;
+            statusEl.style.display = 'block';
+        }
+        
+        function showError(message) {
+            showStatus(message, 'error');
+        }
+        
+        // Initialize page
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                loadProjectDetails();
+            } else {
+                showError('Please login to continue');
+            }
+        });
+    </script>
+</body>
+</html>
