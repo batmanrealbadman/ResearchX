@@ -10,8 +10,9 @@
         --primary: #0d6efd;
         --secondary: #198754;
         --accent: #fd7e14;
-        --dark: #212529;
+        --dark: #1f1f2e;
         --light: #f8f9fa;
+        --gradient: linear-gradient(135deg, #0d6efd, #6610f2);
     }
 
     body {
@@ -25,7 +26,7 @@
     .sidebar {
         background: var(--dark);
         color: white;
-        width: 250px;
+        width: 260px;
         height: 100vh;
         position: fixed;
         display: flex;
@@ -36,8 +37,10 @@
     .sidebar h2 {
         text-align: center;
         padding: 20px;
-        background: var(--primary);
+        background: var(--gradient);
         margin: 0;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
     }
 
     /* Profile card */
@@ -48,12 +51,11 @@
     }
 
     .profile-card img {
-        width: 80px;
-        height: 80px;
+        width: 85px;
+        height: 85px;
         border-radius: 50%;
-        border: 2px solid white;
+        border: 3px solid white;
         object-fit: cover;
-        background: white;
     }
 
     .profile-card h3 {
@@ -67,36 +69,35 @@
         margin: 0;
     }
 
-    .profile-card input {
-        display: none;
-    }
-
     .upload-btn {
         background: var(--primary);
         color: white;
         border: none;
-        padding: 5px 10px;
+        padding: 6px 12px;
         font-size: 0.8rem;
         border-radius: 5px;
         cursor: pointer;
-        margin-top: 10px;
+        margin-top: 8px;
     }
 
     .sidebar a {
-        padding: 15px 20px;
+        padding: 14px 20px;
         color: white;
         text-decoration: none;
-        display: block;
-        transition: background 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: all 0.3s;
     }
 
     .sidebar a:hover {
         background: var(--primary);
+        transform: translateX(4px);
     }
 
     /* Main */
     .main {
-        margin-left: 250px;
+        margin-left: 260px;
         padding: 20px;
         flex: 1;
     }
@@ -105,6 +106,7 @@
         font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 20px;
+        color: #333;
     }
 
     .stats-grid {
@@ -117,36 +119,63 @@
     .card {
         background: white;
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         gap: 15px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
     .card i {
         font-size: 2rem;
-        color: var(--primary);
+        background: var(--gradient);
+        color: white;
+        padding: 12px;
+        border-radius: 50%;
     }
 
-    .activity {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    /* Quick Access Buttons */
+    .quick-access {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 15px;
         margin-bottom: 30px;
     }
 
-    .chart {
+    .quick-btn {
+        background: white;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .quick-btn:hover {
+        background: var(--primary);
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .quick-btn i {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .activity, .chart {
         background: white;
         padding: 20px;
-        border-radius: 10px;
-        height: 300px;
+        border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #888;
+        margin-bottom: 30px;
     }
 </style>
 </head>
@@ -158,20 +187,29 @@
         <img id="profilePic" src="https://via.placeholder.com/80?text=User" alt="Profile Picture">
         <h3 id="sidebarUsername">John Doe</h3>
         <p>Student</p>
-        <input type="file" id="uploadPic" accept="image/*">
+        <input type="file" id="uploadPic" accept="image/*" style="display:none;">
         <button class="upload-btn" onclick="document.getElementById('uploadPic').click()">Change Picture</button>
     </div>
     <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
     <a href="projects.html"><i class="fas fa-folder"></i> My Projects</a>
     <a href="downloads.html"><i class="fas fa-download"></i> Downloads</a>
     <a href="Easyupload.html"><i class="fas fa-upload"></i> Upload</a>
+    <a href="institutions.html"><i class="fas fa-university"></i> All Institutions</a>
+    <a href="elibrary.html"><i class="fas fa-book"></i> E-Library</a>
+    <a href="scholarship.html"><i class="fas fa-graduation-cap"></i> Scholarship</a>
+    <a href="monetize.html"><i class="fas fa-wallet"></i> Monetize</a>
+    <a href="https://wikipedia.org" target="_blank"><i class="fab fa-wikipedia-w"></i> Wikipedia</a>
+    <a href="map.html"><i class="fas fa-map-marker-alt"></i> Map</a>
+    <a href="campus-news.html"><i class="fas fa-newspaper"></i> Campus News</a>
+    <a href="current-affairs.html"><i class="fas fa-globe"></i> Current Affairs</a>
+    <a href="nysc.html"><i class="fas fa-user-friends"></i> NYSC</a>
     <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
     <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
     <a href="logout.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </div>
 
 <div class="main">
-    <div class="welcome">Welcome, <span id="username">John Doe</span> 👋</div>
+    <div class="welcome">Welcome, <span id="username">Hassan sani ahmed</span> 👋</div>
 
     <div class="stats-grid">
         <div class="card"><i class="fas fa-upload"></i><div><h3>Total Uploads</h3><p>12</p></div></div>
@@ -179,23 +217,34 @@
         <div class="card"><i class="fas fa-wallet"></i><div><h3>Total Earnings</h3><p>₦15,000</p></div></div>
     </div>
 
+    <h2>Quick Access</h2>
+    <div class="quick-access">
+        <div class="quick-btn"><i class="fas fa-university"></i> All Institutions</div>
+        <div class="quick-btn"><i class="fas fa-book"></i> E-Library</div>
+        <div class="quick-btn"><i class="fas fa-graduation-cap"></i> Scholarship</div>
+        <div class="quick-btn"><i class="fas fa-wallet"></i> Monetize</div>
+        <div class="quick-btn"><i class="fab fa-wikipedia-w"></i> Wikipedia</div>
+        <div class="quick-btn"><i class="fas fa-map-marker-alt"></i> Map</div>
+        <div class="quick-btn"><i class="fas fa-newspaper"></i> Campus News</div>
+        <div class="quick-btn"><i class="fas fa-globe"></i> Current Affairs</div>
+        <div class="quick-btn"><i class="fas fa-user-friends"></i> NYSC</div>
+    </div>
+
     <div class="activity">
         <h2>Recent Activity</h2>
-        <div class="activity-item"><span>Uploaded "AI in Nigerian Education"</span><span>2 days ago</span></div>
-        <div class="activity-item"><span>Downloaded "Blockchain for Beginners"</span><span>3 days ago</span></div>
-        <div class="activity-item"><span>Earned ₦2,500 from downloads</span><span>1 week ago</span></div>
+        <p>Uploaded "AI in Nigerian Education" - 2 days ago</p>
+        <p>Downloaded "Blockchain for Beginners" - 3 days ago</p>
+        <p>Earned ₦2,500 from downloads - 1 week ago</p>
     </div>
 
     <div class="chart"><p>[Chart displaying uploads & downloads over time]</p></div>
 </div>
 
 <script>
-    // Example username (replace with Supabase data)
     const username = "Jane Smith";
     document.getElementById("username").textContent = username;
     document.getElementById("sidebarUsername").textContent = username;
 
-    // Profile picture upload preview
     document.getElementById("uploadPic").addEventListener("change", function(e) {
         const file = e.target.files[0];
         if (file) {
