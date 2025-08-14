@@ -1,26 +1,65 @@
-const { createClient } = require('@supabase/supabase-js');
+import { supabase } from '../../../lib/supabase';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ message: 'Method not allowed' });
   }
+
   try {
-    const { email, password } = req.body || {};
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+    const { email, password, firstName, lastName, phone, institution, department } = req.body;
+
+    // 1. Sign up the user with Supabase Auth
+    const authResponse = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: `${firstName} ${lastName}`,
+          phone,
+          institution,
+          department
+        }
+      }
+    });
+
+    if (authResponse.error) {
+      return res.status(400).json({ 
+        message: authResponse.error.message || 'Signup failed' 
+      });
     }
 
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    if (error) return res.status(400).json({ error: error.message });
+    // 2. Add additional user data to your profiles table
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert([{
+        id: authResponse.data.user.id,
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        phone,
+        institution,
+        department,
+        created_at: new Date().toISOString()
+      }]);
 
-    // If email confirmations are enabled in Supabase, user must verify email
-    return res.status(200).json({ user: data.user });
-  } catch (e) {
-    return res.status(500).json({ error: 'Server error' });
+    if (profileError) {
+      console.error('Profile creation error:', profileError);
+      // You might want to delete the auth user if profile creation fails
+      await supabase.auth.admin.deleteUser(authResponse.data.user.id);
+      return res.status(400).json({ 
+        message: 'Profile creation failed' 
+      });
+    }
+
+    return res.status(201).json({
+      message: 'Signup successful',
+      user: authResponse.data.user
+    });
+
+  } catch (error) {
+    console.error('Signup error:', error);
+    return res.status(500).json({ 
+      message: 'Internal server error' 
+    });
   }
-};
+}

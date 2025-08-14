@@ -1,26 +1,45 @@
-const { createClient } = require('@supabase/supabase-js');
+import { supabase } from '../../../lib/supabase';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ message: 'Method not allowed' });
   }
+
   try {
-    const { email, password } = req.body || {};
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+    const { identifier, password } = req.body;
+
+    // Check if identifier is email or phone
+    const isEmail = identifier.includes('@');
+    
+    let authResponse;
+    if (isEmail) {
+      authResponse = await supabase.auth.signInWithPassword({
+        email: identifier,
+        password: password
+      });
+    } else {
+      // If you want phone login, you'll need to implement that separately
+      return res.status(400).json({ 
+        message: 'Phone login not yet implemented. Please use email.' 
+      });
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) return res.status(400).json({ error: error.message });
+    if (authResponse.error) {
+      return res.status(400).json({ 
+        message: authResponse.error.message || 'Login failed' 
+      });
+    }
 
-    // Return user & session so the client can store tokens if needed
-    return res.status(200).json({ user: data.user, session: data.session });
-  } catch (e) {
-    return res.status(500).json({ error: 'Server error' });
+    return res.status(200).json({
+      message: 'Login successful',
+      user: authResponse.data.user,
+      session: authResponse.data.session
+    });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    return res.status(500).json({ 
+      message: 'Internal server error' 
+    });
   }
-};
+}
